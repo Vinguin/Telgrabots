@@ -5,12 +5,12 @@
 messages = []
 
 # Fügt eine weitere Nachricht in die Nachrichten Queue hinzu.,
-def appendMessage(bot, update, message):
+def appendMessage(message):
 	global messages		
 	messages.append(message)
 
 # Lösche alle Nachrichten, die aktuell in der Queue sind.
-def clearMessages(bot, update):
+def clearMessages():
 	global messages	
 	messages = []
 
@@ -33,9 +33,9 @@ def sendMessage(bot, update):
 		    bot.sendMessage(update.message.chat_id, message)
 
 def button(bot, update):
-    query = update.callback_query
-    answer = query.data
-    if answer == "1":
+	query = update.callback_query
+	answer = query.data
+	if answer == "1":
 		for message in messages:
 		    bot.sendMessage(update.message.chat_id, message)
 	else:
