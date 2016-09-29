@@ -6,13 +6,16 @@
 
 import logging
 from telegrambotservice import *
+from usermanagement import UserManagement
 from realangebote import *
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler,  MessageHandler, Filters
 
+users = None
 
 def start(bot, update):
 	setMessage("Ich suche nach Angeboten! :)")
 	sendMessage(bot, update)
+
 
 def search_products(bot, update, name_list):
 	angebote_all = getRealAngebote()
@@ -40,9 +43,10 @@ def error(bot, update, error):
     logging.warning('Update "%s" caused error "%s"' % (update, error))
 
 def message_interpreter(bot, update):
+	global users
 	msg_splitted = update.message.text.lower().split(" ")	
 	cmd = msg_splitted[0]
-
+	users.registerUser(bot, update)
 	if cmd == "search":
 		search_list = []
 		for to_search in msg_splitted[1:]:
@@ -63,6 +67,10 @@ def main():
 	updater.dispatcher.add_handler(CallbackQueryHandler(button))
 	updater.dispatcher.add_handler(MessageHandler([Filters.text], message_interpreter))
 	updater.dispatcher.add_error_handler(error)
+
+	# User datebase:	
+	global users
+	users = UserManagement()
 
 	# Start the Bot
 	updater.start_polling()
