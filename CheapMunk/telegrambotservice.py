@@ -1,6 +1,7 @@
 #!/usr/bin/python*
 # -*- coding: utf-8 -*-
 
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 messages = []
 
@@ -35,8 +36,14 @@ def sendMessage(bot, update):
 def button(bot, update):
 	query = update.callback_query
 	answer = query.data
+
+
+	bot.editMessageText(text= query.message.text,
+                        chat_id=query.message.chat_id,
+                        message_id=query.message.message_id)
+
 	if answer == "1":
 		for message in messages:
-		    bot.sendMessage(update.message.chat_id, message)
-	else:
-		bot.sendMessage(update.message.chat_id, answer)
+		    bot.sendMessage(query.message.chat_id, message)
+
+

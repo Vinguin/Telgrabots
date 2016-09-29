@@ -6,9 +6,7 @@
 
 import logging
 from telegrambotservice import *
-from sets import Set
 from realangebote import *
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler,  MessageHandler, Filters
 
 
@@ -24,14 +22,15 @@ def search_products(bot, update, name_list):
 	for name in name_list:
 		for angebot in angebote_all:
 			
-			if name in angebot["name"]:
+			if name in angebot["name"] and not angebot in angebote_found:
 				angebote_found.append(angebot)
 
-	for angebot in angebote_found:
+	for produkt in angebote_found:
 		message = "Angebot:"
-		message += "\nName: %s" % angebot["name"]
-		message += "\nPreis: %s" % angebot["preis"]
-		message += "\n\n\t%s" % angebot["link"]
+		message += "\nName: %s" % produkt["name"]
+		message += "\nPreis: %s" % produkt["preis"]
+		message += "\n\n\t%s" % produkt["link"]
+
 		appendMessage(message)
 
 	# Sende Nachricht
