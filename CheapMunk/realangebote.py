@@ -22,7 +22,7 @@ def getRealAngebote():
 		produkt["name"] = angebot.text
 		produkt["preis"] = preis.attrib["title"]
 		produkt["link"] = "http://prospekt.real.de/"+ angebot.attrib["href"]
-		produkt["datum"] = datum
+		produkt["datum"] = datum[11:]
 		produkte.append(produkt)
 	return produkte
 

@@ -16,9 +16,14 @@ def clearMessages():
 	messages = []
 
 # Setze eine neue Nachricht
-def setMessage(message):
+def setMessageString(message):
 	global messages	
 	messages = [message]
+
+# Setze eine neue Nachricht
+def setMessageList(messageList):
+	global messages	
+	messages = messageList
 
 # Versende eine Nachricht und benachrichtige den User, falls die Nachrichtenanzahl 10 überschreiten.
 def sendMessage(bot, update):
@@ -32,6 +37,11 @@ def sendMessage(bot, update):
 	else:
 		for message in messages:
 		    bot.sendMessage(update.message.chat_id, message)
+
+def sendMessageTo(bot, chat_id):
+	global messages
+	for message in messages:
+		    bot.sendMessage(chat_id, message)
 
 def button(bot, update):
 	query = update.callback_query
